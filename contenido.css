@@ -1,0 +1,286 @@
+:root {
+    --primary-gray: #333;
+    --light-gray: #f2f2f2;
+    --medium-gray: #d3d3d3;
+    --dark-gray: #222;
+    --accent-blue: #007bff;
+    --accent-red: #dc3545;
+    --text-color: #555;
+    --border-radius: 12px;
+    --shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    --hover-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--light-gray);
+    color: var(--text-color);
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow-x: hidden; /* Evita el scroll horizontal */
+    position: relative;
+}
+
+/* Animación de fondo */
+.background-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, var(--light-gray), var(--medium-gray), var(--light-gray));
+    background-size: 400% 400%;
+    animation: gradientAnimation 15s ease infinite;
+    z-index: -1;
+    opacity: 0.7;
+}
+
+@keyframes gradientAnimation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+header {
+    background-color: var(--primary-gray);
+    color: #fff;
+    padding: 30px 0;
+    text-align: center;
+    box-shadow: var(--shadow);
+    position: relative;
+    z-index: 1;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.8em;
+    font-weight: 700;
+    letter-spacing: 1px;
+    animation: fadeInDown 1s ease-out;
+}
+
+header p {
+    font-size: 1.2em;
+    opacity: 0.9;
+    margin-top: 10px;
+    animation: fadeInUp 1.2s ease-out;
+}
+
+.highlight {
+    color: var(--accent-red);
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+    flex-grow: 1;
+    position: relative;
+    z-index: 1;
+}
+
+.card {
+    background-color: #fff;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    perspective: 1000px; /* Para el efecto de giro 3D */
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    position: relative;
+    animation: scaleIn 0.8s ease-out forwards;
+    transform: scale(0.9); /* Empieza un poco más pequeño */
+    opacity: 0; /* Empieza invisible */
+}
+
+/* Tooltip creativo */
+.card::before {
+    content: attr(data-tip);
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--dark-gray);
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.8em;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease, top 0.3s ease;
+}
+
+.card:hover::before {
+    opacity: 1;
+    top: -40px;
+}
+
+.card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: var(--hover-shadow);
+}
+
+.card-inner {
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+}
+
+.card.is-flipped .card-inner {
+    transform: rotateY(180deg);
+}
+
+.card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden; /* Oculta la parte trasera mientras gira */
+    backface-visibility: hidden;
+    padding: 25px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    border-radius: var(--border-radius);
+}
+
+.card-front {
+    background-color: #fff;
+}
+
+.card-back {
+    background-color: var(--medium-gray);
+    color: var(--dark-gray);
+    transform: rotateY(180deg);
+    display: none; /* Oculto por defecto para evitar flash en la carga */
+    justify-content: center; /* Centrar contenido verticalmente */
+    align-items: center;
+}
+
+.card-image {
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+    border-radius: 8px;
+    border: 3px solid var(--medium-gray); /* Marco gris */
+    margin-bottom: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card h2 {
+    color: var(--primary-gray);
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.card h3 {
+    color: var(--dark-gray);
+    font-size: 1.4em;
+    margin-bottom: 15px;
+}
+
+.card p {
+    font-size: 1em;
+    margin-bottom: 20px;
+    color: var(--text-color);
+}
+
+.card-back p {
+    color: var(--dark-gray);
+}
+
+.action-button {
+    background-color: var(--accent-blue);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.action-button:hover {
+    background-color: #0056b3;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.action-button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.reveal-button {
+    background-color: var(--accent-blue);
+}
+
+.close-button {
+    background-color: var(--primary-gray);
+    margin-top: 20px;
+}
+
+.close-button:hover {
+    background-color: var(--dark-gray);
+}
+
+footer {
+    text-align: center;
+    padding: 30px;
+    background-color: var(--primary-gray);
+    color: #fff;
+    margin-top: 50px;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
+    position: relative;
+    z-index: 1;
+}
+
+footer p {
+    margin: 0;
+    font-size: 1.1em;
+    opacity: 0.8;
+}
+
+/* Animaciones */
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 2em;
+    }
+
+    .grid-container {
+        grid-template-columns: 1fr;
+        padding: 0 15px;
+    }
+
+    .card {
+        margin: 0 auto;
+    }
+}
